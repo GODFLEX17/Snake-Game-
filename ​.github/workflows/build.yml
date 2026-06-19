@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout Repository
       uses: actions/checkout@v3
 
     - name: Set up Python
@@ -16,21 +16,20 @@ jobs:
       with:
         python-version: '3.10'
 
-    - name: Install Dependencies
+    - name: Install System Dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y build-essential libffi-dev python3-dev ffmpeg libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev zlib1g-dev libgstreamer1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good openjdk-17-jdk-headless unzip autoconf libtool pkg-config
         pip install --upgrade pip
         pip install cython==0.29.36 buildozer
 
-    - name: Build with Buildozer
+    - name: Run Buildozer Build
       run: |
         yes | buildozer -v android debug
 
-    - name: Upload APK
+    - name: Save Generated APK
       uses: actions/upload-artifact@v3
       with:
         name: Snake-Game-APK
-        path: bin/*.apk
-        
+        path: bin/
         
