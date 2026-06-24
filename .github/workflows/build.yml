@@ -26,7 +26,7 @@ jobs:
 
       - name: Run Buildozer Build
         run: |
-          buildozer android clean
+          rm -rf .buildozer/android/platform/python-for-android
           mkdir -p .buildozer/android/platform/
           git clone --branch master https://github.com/kivy/python-for-android.git .buildozer/android/platform/python-for-android
           buildozer android debug
