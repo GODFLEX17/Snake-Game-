@@ -28,14 +28,19 @@ jobs:
         run: |
           mkdir -p ~/.android
           touch ~/.android/repositories.cfg
-          yes | sdkmanager --licenses || true
+          # Buildozer ke khud ke downloaded sdkmanager ko dhund kar use chalana
+          export ANDROID_HOME=$HOME/.buildozer/android/platform/android-sdk
+          if [ -d "$ANDROID_HOME/cmdline-tools/latest/bin" ]; then
+            yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+          fi
 
       - name: Run Buildozer Build
         run: |
           rm -rf .buildozer/android/platform/python-for-android
           mkdir -p .buildozer/android/platform/
           git clone --branch master https://github.com/kivy/python-for-android.git .buildozer/android/platform/python-for-android
-          buildozer android debug
+          # Buildozer automatically prompts for licenses if run with 'yes'
+          yes | buildozer android debug
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
